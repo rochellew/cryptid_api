@@ -26,6 +26,7 @@ def test_create_cryptid():
     assert data["description"] == sample_cryptid["description"]
 
 def test_get_cryptid(create_sample_cryptid):
+    print (create_sample_cryptid)
     cryptid_id = create_sample_cryptid["id"]
     response = client.get(f"/cryptids/{cryptid_id}")
     assert response.status_code == 200
