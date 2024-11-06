@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.models import Cryptid
+from app.schemas import CryptidCreate, CryptidResponse
 from app.database import get_db
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,13 +26,18 @@ def read_cryptids(skip: int = 0, limit: int = 10, db: Session = Depends(get_db))
     cryptids = db.query(Cryptid).offset(skip).limit(limit).all()
     return cryptids
 
+from fastapi import HTTPException, status
+
 @app.get("/cryptids/{cryptid_id}")
 def read_cryptid(cryptid_id: int, db: Session = Depends(get_db)):
     cryptid = db.query(Cryptid).filter(Cryptid.id == cryptid_id).first()
+    if not cryptid:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cryptid not found")
     return cryptid
 
-@app.post("/cryptids/", status_code=status.HTTP_201_CREATED, response_model=CryptidModel)
-def create_cryptid(cryptid: CryptidModel, db: Session = Depends(get_db)):
+
+@app.post("/cryptids/", status_code=status.HTTP_201_CREATED, response_model=CryptidResponse)
+def create_cryptid(cryptid: CryptidCreate, db: Session = Depends(get_db)):
     db_cryptid = Cryptid(name=cryptid.name, description=cryptid.description, image_url=cryptid.image_url)
     db.add(db_cryptid)
     db.commit()
@@ -48,8 +54,8 @@ def update_cryptid(cryptid_id: int, cryptid: CryptidModel, db:Session=Depends(ge
 @app.delete("/cryptids/{cryptid_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_cryptid(cryptid_id: int, db: Session = Depends(get_db)):
     cryptid = db.query(Cryptid).filter(Cryptid.id == cryptid_id).first()
-    if cryptid is None:
-        raise HTTPException(status_code=404, detail="Cryptid not found")
+    if not cryptid:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cryptid not found")
     db.delete(cryptid)
     db.commit()
     return {"message": "Cryptid deleted successfully"}
