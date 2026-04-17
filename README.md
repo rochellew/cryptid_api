@@ -61,6 +61,8 @@ When you run `uv run dev`, the `start()` function in `main.py` launches Uvicorn 
 
 ## What is uv?
 
+## What is uv?
+
 `uv` is a modern Python package manager — it replaces `pip` and `venv` for managing dependencies and virtual environments. It reads your project's dependencies from `pyproject.toml` and installs them into an isolated `.venv` folder so they don't interfere with other Python projects on your machine.
 
 One of uv's more useful features is that it can also manage Python versions for you. If you don't have Python 3.14 installed, uv can download and install it without affecting any other Python installation on your system:
@@ -86,13 +88,11 @@ Pydantic is a Python library for data validation. You define the shape of your d
 
 In a FastAPI application, Pydantic schemas serve two roles:
 
-### Validating input. 
+> ### Validating input
+> When a `POST` or `PUT` request comes in, FastAPI uses the schema to validate the request body before your function even runs. If a required field is missing or a value is the wrong type, FastAPI rejects the request and returns a `422 Unprocessable Entity` error automatically — you don't have to write that check yourself.
 
-When a `POST` or `PUT` request comes in, FastAPI uses the schema to validate the request body before your function even runs. If a required field is missing or a value is the wrong type, FastAPI rejects the request and returns a `422 Unprocessable Entity` error automatically — you don't have to write that check yourself.
-
-### Shaping output. 
-
-When your route handler returns data, FastAPI uses the `response_model` schema to control exactly what gets serialized to JSON. Fields that aren't in the schema are stripped out. This means you can safely return a full database object from your handler without accidentally exposing columns you didn't intend to.
+> ### Shaping output
+> When your route handler returns data, FastAPI uses the `response_model` schema to control exactly what gets serialized to JSON. Fields that aren't in the schema are stripped out. This means you can safely return a full database object from your handler without accidentally exposing columns you didn't intend to.
 
 This separation between "what the database stores" and "what the API exposes" is intentional and important. In this project, for example, the `id` field is included in `CryptidResponse` (so clients can see which record they're working with) but excluded from `CryptidCreate` and `CryptidUpdate` (because the client has no business telling the database what ID to assign).
 
