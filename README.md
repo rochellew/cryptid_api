@@ -61,8 +61,6 @@ When you run `uv run dev`, the `start()` function in `main.py` launches Uvicorn 
 
 ## What is uv?
 
-## What is uv?
-
 `uv` is a modern Python package manager — it replaces `pip` and `venv` for managing dependencies and virtual environments. It reads your project's dependencies from `pyproject.toml` and installs them into an isolated `.venv` folder so they don't interfere with other Python projects on your machine.
 
 One of uv's more useful features is that it can also manage Python versions for you. If you don't have Python 3.14 installed, uv can download and install it without affecting any other Python installation on your system:
