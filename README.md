@@ -61,8 +61,27 @@ When you run `uv run dev`, the `start()` function in `main.py` launches Uvicorn 
 
 ## What is uv?
 
+## What is uv?
+
 `uv` is a modern Python package manager — it replaces `pip` and `venv` for managing dependencies and virtual environments. It reads your project's dependencies from `pyproject.toml` and installs them into an isolated `.venv` folder so they don't interfere with other Python projects on your machine.
 
+One of uv's more useful features is that it can also manage Python versions for you. If you don't have Python 3.14 installed, uv can download and install it without affecting any other Python installation on your system:
+
+```bash
+uv python install 3.14
+```
+
+To see which Python versions you currently have available:
+
+```bash
+uv python list
+```
+
+When you run `uv sync` inside this project, uv will read the `requires-python = ">=3.14"` line in `pyproject.toml` and automatically use a compatible version — downloading one if necessary. You generally don't need to manually manage which Python version is active; uv handles it per-project.
+
+> [!IMPORTANT]
+> If you already have Python installed through python.org, the Microsoft Store, or Homebrew, uv will detect it. You only need to run `uv python install` if no compatible version is found.
+> 
 ## What is Pydantic?
 
 Pydantic is a Python library for data validation. You define the shape of your data as a class, and Pydantic automatically checks that incoming data matches that shape — right types, required fields present, nothing unexpected sneaking through.
