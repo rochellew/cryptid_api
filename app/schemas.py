@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class CryptidBase(BaseModel):
     name: str = Field(description="The name of the cryptid")
-    description: str = Field(descripton = "A brief description of the cryptid")
+    description: str = Field(description = "A brief description of the cryptid")
     image_url: str = Field(description="URL to an image of the cryptid")
 
 class CryptidCreate(CryptidBase):

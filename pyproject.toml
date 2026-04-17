@@ -15,4 +15,7 @@ dependencies = [
 dev = "app.main:start"
 
 [tool.uv]
-package = true
+package = false
+
+[dependency-groups]
+dev = []
