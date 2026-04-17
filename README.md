@@ -88,9 +88,13 @@ Pydantic is a Python library for data validation. You define the shape of your d
 
 In a FastAPI application, Pydantic schemas serve two roles:
 
-**Validating input.** When a `POST` or `PUT` request comes in, FastAPI uses the schema to validate the request body before your function even runs. If a required field is missing or a value is the wrong type, FastAPI rejects the request and returns a `422 Unprocessable Entity` error automatically — you don't have to write that check yourself.
+### Validating input. 
 
-**Shaping output.** When your route handler returns data, FastAPI uses the `response_model` schema to control exactly what gets serialized to JSON. Fields that aren't in the schema are stripped out. This means you can safely return a full database object from your handler without accidentally exposing columns you didn't intend to.
+When a `POST` or `PUT` request comes in, FastAPI uses the schema to validate the request body before your function even runs. If a required field is missing or a value is the wrong type, FastAPI rejects the request and returns a `422 Unprocessable Entity` error automatically — you don't have to write that check yourself.
+
+### Shaping output. 
+
+When your route handler returns data, FastAPI uses the `response_model` schema to control exactly what gets serialized to JSON. Fields that aren't in the schema are stripped out. This means you can safely return a full database object from your handler without accidentally exposing columns you didn't intend to.
 
 This separation between "what the database stores" and "what the API exposes" is intentional and important. In this project, for example, the `id` field is included in `CryptidResponse` (so clients can see which record they're working with) but excluded from `CryptidCreate` and `CryptidUpdate` (because the client has no business telling the database what ID to assign).
 
