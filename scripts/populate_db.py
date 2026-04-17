@@ -10,11 +10,12 @@ cryptids_data = [
 
 def populate():
     Base.metadata.create_all(bind=engine)
-    session = Session(bind=engine)
-    for cryptid in cryptids_data:
-        db_cryptid = Cryptid(**cryptid)
-        session.add(db_cryptid)
-    session.commit()
+    with Session(bind=engine) as session:
+        session.query(Cryptid).delete()
+        session.commit()
+        for cryptid in cryptids_data:
+            session.add(Cryptid(**cryptid))
+        session.commit()
 
 if __name__ == "__main__":
     populate()
