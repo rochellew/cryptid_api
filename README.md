@@ -97,9 +97,9 @@ Breaking that down:
 | `cryptid_id: int` | FastAPI sees the type hint and automatically converts the URL parameter to an integer |
 | `db: Session = Depends(get_db)` | Dependency injection — FastAPI calls `get_db()` and passes the result in as `db` |
 
-The router itself (`APIRouter`) is essentially a mini-app that groups related routes together. In `main.py`, `app.include_router(cryptids.router)` registers all of those routes with the main application at once, prefixed with `/cryptids`.
-
 </div>
+
+The router itself (`APIRouter`) is essentially a mini-app that groups related routes together. In `main.py`, `app.include_router(cryptids.router)` registers all of those routes with the main application at once, prefixed with `/cryptids`.
 
 ## Getting started
 
