@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import cryptids
-from scripts.populate_db import populate
+from app.scripts.populate_db import populate
 import uvicorn
 
 @asynccontextmanager
@@ -14,7 +14,12 @@ def start():
     """Launched with `uv run dev`"""
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
 
-app = FastAPI(lifespan = lifespan)
+app = FastAPI(
+    title = "Cryptid API",
+    description = "A REST API for managing records of rumoured creatures.",
+    version = "0.1.0",
+    lifespan = lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,

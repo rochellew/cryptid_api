@@ -1,9 +1,9 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 class CryptidBase(BaseModel):
-    name: str
-    description: str
-    image_url: str
+    name: str = Field(description="The name of the cryptid")
+    description: str = Field(descripton = "A brief description of the cryptid")
+    image_url: str = Field(description="URL to an image of the cryptid")
 
 class CryptidCreate(CryptidBase):
     pass
@@ -14,6 +14,3 @@ class CryptidUpdate(CryptidBase):
 class CryptidResponse(CryptidBase):
     id: int # include `id` in the response schema
     model_config = ConfigDict(from_attributes=True)
-
-    class Config:
-        orm_mode = True
