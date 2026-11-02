@@ -79,4 +79,3 @@ def delete_cryptid(cryptid_id: int, db: Session = session):
         )
     db.delete(cryptid)
     db.commit()
-    
