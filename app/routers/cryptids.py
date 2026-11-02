@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -7,6 +9,9 @@ from app.schemas import CryptidCreate, CryptidResponse, CryptidUpdate
 
 router = APIRouter(prefix="/cryptids", tags=["cryptids"])
 session = Depends(get_db)
+
+# Documents the 404s raised manually below; FastAPI can't infer them.
+NOT_FOUND: dict[int | str, dict[str, Any]] = {404: {"description": "Cryptid not found"}}
 
 
 @router.get("/", response_model=list[CryptidResponse])
@@ -21,7 +26,7 @@ def read_cryptids(skip: int = 0, limit: int = 10, db: Session = session):
     return cryptids
 
 
-@router.get("/{cryptid_id}", response_model=CryptidResponse)
+@router.get("/{cryptid_id}", response_model=CryptidResponse, responses=NOT_FOUND)
 def read_cryptid(cryptid_id: int, db: Session = session):
     """
     Return a single cryptid by ID. Returns 404 if not found.
@@ -49,7 +54,10 @@ def create_cryptid(cryptid: CryptidCreate, db: Session = session):
 
 
 @router.put(
-    "/{cryptid_id}", response_model=CryptidResponse, status_code=status.HTTP_200_OK
+    "/{cryptid_id}",
+    response_model=CryptidResponse,
+    status_code=status.HTTP_200_OK,
+    responses=NOT_FOUND,
 )
 def update_cryptid(cryptid_id: int, cryptid: CryptidUpdate, db: Session = session):
     """
@@ -67,7 +75,9 @@ def update_cryptid(cryptid_id: int, cryptid: CryptidUpdate, db: Session = sessio
     return db_cryptid
 
 
-@router.delete("/{cryptid_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{cryptid_id}", status_code=status.HTTP_204_NO_CONTENT, responses=NOT_FOUND
+)
 def delete_cryptid(cryptid_id: int, db: Session = session):
     """
     Delete a cryptid by ID. Returns 404 if not found.
