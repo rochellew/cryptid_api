@@ -49,7 +49,7 @@ def create_cryptid(cryptid: CryptidCreate, db: Session = session):
 
 
 @router.put(
-    "/{cryptid_id}", response_model=CryptidResponse, status_code=status.HTTP_201_CREATED
+    "/{cryptid_id}", response_model=CryptidResponse, status_code=status.HTTP_200_CREATED
 )
 def update_cryptid(cryptid_id: int, cryptid: CryptidUpdate, db: Session = session):
     """
@@ -79,3 +79,4 @@ def delete_cryptid(cryptid_id: int, db: Session = session):
         )
     db.delete(cryptid)
     db.commit()
+    
