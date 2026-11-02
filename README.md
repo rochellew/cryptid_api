@@ -102,8 +102,7 @@ The `@` syntax you see above each route handler function is a Python **decorator
 
 ```python
 @router.get("/{cryptid_id}", response_model=CryptidResponse)
-def read_cryptid(cryptid_id: int, db: Session = Depends(get_db)):
-    ...
+def read_cryptid(cryptid_id: int, db: Session = Depends(get_db)): ...
 ```
 
 Breaking that down:

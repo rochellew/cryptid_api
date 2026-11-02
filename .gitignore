@@ -23,6 +23,3 @@ build/
 # Environment variables
 .env
 .env.*
-
-# uv
-uv.lock
