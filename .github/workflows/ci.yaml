@@ -22,5 +22,5 @@ jobs:
           enable-cache: true
       - run: uv python install
       - run: uv sync --locked --all-groups
-      - run: uv run pytest
+      - run: uv run pytest -v
       
