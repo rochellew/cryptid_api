@@ -40,12 +40,9 @@ def test_create_cryptid_missing_field(client, missing_field):
 
 
 # --- Read ---
-
-
 def test_list_cryptids(client):
     for i in range(3):
         client.post("/cryptids/", json={**sample_cryptid, "name": f"Bigfoot {i}"})
-
     response = client.get("/cryptids/")
     assert response.status_code == 200
     assert len(response.json()) == 3

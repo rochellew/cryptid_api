@@ -8,6 +8,7 @@ from app.routers import cryptids
 from app.scripts.populate_db import populate
 
 
+# This comment will be present in GitHub
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     populate()
